@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [language, setLanguage] = useState('English');
+  const [greeting, setGreeting] = useState('');
+  const [error, setError] = useState('');
+
+  const fetchGreeting = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/hello?language=${language}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        setGreeting(data.msgText); 
+        setError(''); 
+      } else {
+        setGreeting('');
+        setError(data.error_message);
+      }
+    } catch (err) {
+      setGreeting('');
+      setError('Error fetching the greeting');
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <header className="App-header">
+        <h1>Hello World API Client</h1>
+        <label>
+          Choose a language:
+          <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+            <option value="English">English</option>
+            <option value="French">French</option>
+            <option value="Hindi">Hindi</option>
+          </select>
+        </label>
+
+        <button onClick={fetchGreeting}>Get Greeting</button>
+
+        {greeting && <p className="greeting">Greeting: {greeting}</p>}
+        {error && <p className="error">Error: {error}</p>}
+      </header>
+    </div>
+  );
 }
 
-export default App
+export default App;

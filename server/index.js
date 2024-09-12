@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const PORT=5000 | process.env.PORT 
 const greetings = require('./data.json');
+const cors = require('cors');
+app.use(cors());
 
 function generateID() {
     return crypto.randomBytes(5).toString('hex');
