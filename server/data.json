@@ -1,0 +1,15 @@
+{
+    "English": {
+      "id": "A123456789",
+      "msgText": "Hello world"
+    },
+    "French": {
+      "id": "B123456789",
+      "msgText": "Bonjour le monde"
+    },
+    "Hindi": {
+      "id": "C123456789",
+      "msgText": "Namastey sansar"
+    }
+  }
+  
